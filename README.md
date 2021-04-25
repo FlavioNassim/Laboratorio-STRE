@@ -7,5 +7,5 @@ O projeto abordado, visa mostrar o aprendizado da disciplina de Sistemas em Temp
 Os projetos foram desenvolvidos e implementados tanto **fisicamente na protoboard** quanto com a utilização do **Tinkercad**.
 
 ### Laboratorios
-- Lab-3
-O *"LAB-3"* era
+- O *"LAB-3"* era composto por 3 exercicios...
+- - teste 
