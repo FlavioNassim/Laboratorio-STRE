@@ -1,0 +1,154 @@
+/*
+ * Example to demonstrate thread definition, semaphores, and thread sleep.
+ */
+#include <NilRTOS.h>
+
+// The LED definition
+int led_red = 13;
+int led_blue = 12;
+int led_green = 11;
+
+// Declare a semaphore with an inital counter value of zero.
+SEMAPHORE_DECL(sem, 1);
+
+
+//------------------------------------------------------------------------------
+/*
+ * Thread 1, turn the LEDs off when signalled by another thread.
+ */
+// Declare a stack with 128 bytes beyond context switch and interrupt needs.
+NIL_WORKING_AREA(waThread1, 128);
+
+// Declare the thread function for thread 1.
+NIL_THREAD(Thread1, arg) {
+  while (TRUE) {
+    
+    // Wait for signal from thread 2.
+    nilSemWait(&sem);
+    
+    // Turn LED off.
+    digitalWrite(led_red, LOW);  
+    digitalWrite(led_blue, LOW);
+    digitalWrite(led_green, LOW);
+  }
+}
+
+
+//------------------------------------------------------------------------------
+/*
+ * Thread 2, turn the led red on and signal thread 1 to turn the LED off.
+ */
+// Declare a stack with 128 bytes beyond context switch and interrupt needs. 
+NIL_WORKING_AREA(waThread2, 128);
+
+// Declare the thread function for thread 2.
+NIL_THREAD(Thread2, arg) {
+
+  pinMode(led_red, OUTPUT);
+  
+  while (TRUE) {
+    // Turn LED on.
+    digitalWrite(led_red, HIGH);
+    
+    // Sleep for 1000 milliseconds.
+    nilThdSleepMilliseconds(1000);
+    
+    // Signal thread 1 to turn LED off.
+    nilSemSignal(&sem);
+    
+    // Sleep for 2000 milliseconds.   
+    // nilThdSleepMilliseconds(2000);
+    nilThdSleepMilliseconds(2001);    // Diminui o problema causado pela prioridade na linha de cima 
+  }
+}
+
+
+//------------------------------------------------------------------------------
+/*
+ * Thread 3, turn the led blue on and signal thread 1 to turn the LED off.
+ */
+// Declare a stack with 128 bytes beyond context switch and interrupt needs. 
+NIL_WORKING_AREA(waThread3, 128);
+
+// Declare the thread function for thread 3.
+NIL_THREAD(Thread3, arg) {
+
+  pinMode(led_blue, OUTPUT);
+  
+  while (TRUE) {
+    // Sleep for 1000 milliseconds
+    nilThdSleepMilliseconds(1000);
+    
+    // Turn LED on.
+    digitalWrite(led_blue, HIGH);
+    
+    // Sleep for 1000 milliseconds.
+    nilThdSleepMilliseconds(1000);
+    
+    // Signal thread 1 to turn LED off.
+    nilSemSignal(&sem);
+    
+    // Sleep for 2000 milliseconds.   
+    // nilThdSleepMilliseconds(2000);
+    nilThdSleepMilliseconds(2002); // Diminui o problema causado pela prioridade na linha de cima
+  }
+}
+
+
+//------------------------------------------------------------------------------
+/*
+ * Thread 4, turn the led green on and signal thread 1 to turn the LED off.
+ */
+// Declare a stack with 128 bytes beyond context switch and interrupt needs. 
+NIL_WORKING_AREA(waThread4, 128);
+
+// Declare the thread function for thread 4.
+NIL_THREAD(Thread4, arg) {
+
+  pinMode(led_green, OUTPUT);
+  
+  while (TRUE) {
+    // Sleep for 1000 milliseconds
+    nilThdSleepMilliseconds(2000);
+    
+    // Turn LED on.
+    digitalWrite(led_green, HIGH);
+    
+    // Sleep for 1000 milliseconds.
+    nilThdSleepMilliseconds(1000);
+    
+    // Signal thread 1 to turn LED off.
+    nilSemSignal(&sem);
+    
+    // Sleep for 2000 milliseconds.   
+    // nilThdSleepMilliseconds(2000);
+    nilThdSleepMilliseconds(2003); // Diminui o problema causado pela prioridade na linha de cima
+  }
+}
+
+
+//------------------------------------------------------------------------------
+/*
+ * Threads static table, one entry per thread.  A thread's priority is
+ * determined by its position in the table with highest priority first.
+ * 
+ * These threads start with a null argument.  A thread's name may also
+ * be null to save RAM since the name is currently not used.
+ */
+NIL_THREADS_TABLE_BEGIN()
+NIL_THREADS_TABLE_ENTRY(NULL, Thread1, NULL, waThread1, sizeof(waThread1))
+NIL_THREADS_TABLE_ENTRY(NULL, Thread2, NULL, waThread2, sizeof(waThread2))
+NIL_THREADS_TABLE_ENTRY(NULL, Thread3, NULL, waThread3, sizeof(waThread3))
+NIL_THREADS_TABLE_ENTRY(NULL, Thread4, NULL, waThread4, sizeof(waThread4))
+NIL_THREADS_TABLE_END()
+//------------------------------------------------------------------------------
+void setup() {
+  // Start Nil RTOS.
+  nilSysBegin();
+}
+//------------------------------------------------------------------------------
+// Loop is the idle thread.  The idle thread must not invoke any 
+// kernel primitive able to change its state to not runnable.
+void loop() {
+  // Not used.
+}

@@ -1,0 +1,87 @@
+/* Example to demonstrate thread definition, semaphores, and thread sleep. */
+
+#include <NilRTOS.h>
+
+// The LED definition
+int red_led = 13;
+int blue_led = 12;
+int green_led = 11;
+
+// Declare a semaphore with an inital counter value of zero.
+SEMAPHORE_DECL(sem, 1);
+
+
+//------------------------------------------------------------------------------
+// Declare the thread function for all threads.
+NIL_THREAD(thdFcn, name) {
+  int color_led;
+  
+  while (TRUE) {
+    
+    if(name == "red"){
+      color_led = red_led;
+    }
+    else if(name == "blue"){
+      color_led = blue_led;
+    }
+    else{
+      color_led = green_led;
+    }
+    Serial.println(color_led);
+
+
+    
+    // Wait for signal.
+    nilSemWait(&sem);
+      
+      // Turn LED off.
+      digitalWrite(red_led, LOW);  
+      digitalWrite(blue_led, LOW);
+      digitalWrite(green_led, LOW);
+      //nilThdSleep(1000);
+      digitalWrite(color_led, HIGH);
+      nilThdSleep(1000);
+      
+    // EXIT REGION
+    nilSemSignal(&sem);
+      
+    nilThdSleep(2000);
+  }
+}
+
+
+//------------------------------------------------------------------------------
+// Declare a stack with 128 bytes beyond context switch and interrupt needs.
+NIL_WORKING_AREA(waThread1, 128); 
+NIL_WORKING_AREA(waThread2, 128);
+NIL_WORKING_AREA(waThread3, 128);
+
+//------------------------------------------------------------------------------
+/*
+ * Threads static table, one entry per thread.  A thread's priority is
+ * determined by its position in the table with highest priority first.
+ * 
+ * These threads start with a null argument.  A thread's name may also
+ * be null to save RAM since the name is currently not used.
+ */
+NIL_THREADS_TABLE_BEGIN()
+NIL_THREADS_TABLE_ENTRY(NULL, thdFcn, "red",   waThread1, sizeof(waThread1))
+NIL_THREADS_TABLE_ENTRY(NULL, thdFcn, "blue",  waThread2, sizeof(waThread2))
+NIL_THREADS_TABLE_ENTRY(NULL, thdFcn, "green", waThread3, sizeof(waThread3))
+NIL_THREADS_TABLE_END()
+//------------------------------------------------------------------------------
+void setup() {
+  pinMode(red_led, OUTPUT);
+  pinMode(blue_led, OUTPUT);
+  pinMode(green_led, OUTPUT);
+
+  Serial.begin(9600);
+  // Start Nil RTOS.
+  nilSysBegin();
+}
+//------------------------------------------------------------------------------
+// Loop is the idle thread.  The idle thread must not invoke any 
+// kernel primitive able to change its state to not runnable.
+void loop() {
+  // Not used.
+}

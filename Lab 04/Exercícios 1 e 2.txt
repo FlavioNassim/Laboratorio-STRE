@@ -1,0 +1,40 @@
+int analogInPin = A0;  // Pino analógico que o sensor está conectado
+int digitalPin = 2;    // Pino que fornecerá energia ao sensor e LED
+int sensorValue = 0;  // variável para armazenar o valor medido pelo sensor
+int setpoint = 100;   // Se a variável sensorValue estiver abaixo deste valor, ocorre o acionamento do alarme
+
+
+void setup()
+{
+  Serial.begin(9600); //Inicialização do monitor serial
+
+  // Definição de Pinos de saída
+  pinMode(8, OUTPUT); // Buzzer
+  pinMode(digitalPin, OUTPUT); // Fotorresistor e LED
+  
+}
+
+void loop() {
+  
+  sensorValue = analogRead(analogInPin); // Faz a leitura do pino analógico
+  
+  Serial.print("sensor = " );            // Imprime o resultado no monitor serial
+  Serial.println(sensorValue);      
+  
+  if(sensorValue > setpoint){
+    // O valor de sensorValue neste momento foi medido com o LED apagado, e é igual a Zero.
+    // Vamos Soar o Alarme, aguardar 1 segundo e acender o LED.
+     digitalWrite(8, LOW);
+     delay(1000);
+     digitalWrite(digitalPin, LOW);
+  
+  } else {
+    // O valor de sensorValue neste momento foi medido com o LED aceso, e é maior que 100.
+    // Vamos parar o Alarme, aguardar 1 segundo e apagar o LED.
+   digitalWrite(8, HIGH);
+   delay(1000); 
+   digitalWrite(digitalPin, HIGH);
+  
+  }
+                  
+}

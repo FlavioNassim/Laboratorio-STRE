@@ -1,0 +1,85 @@
+void setup()
+{ pinMode(0, OUTPUT);
+  pinMode(13, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(4, OUTPUT);
+}
+
+
+
+void loop()
+{
+  int var = 0;
+  int atraso = 500;
+    while(var  10)
+    {
+      digitalWrite(0, HIGH);
+      delay(atraso);
+      digitalWrite(13, HIGH);
+      delay(atraso);
+      digitalWrite(12, HIGH);
+      delay(atraso);
+      digitalWrite(11, HIGH);
+      delay(atraso);
+      digitalWrite(6,HIGH);
+      delay(atraso);
+      digitalWrite(5, HIGH);
+      delay(atraso);
+      digitalWrite(4, HIGH);
+      delay(atraso); Wit for 1000 millisecond(s)
+
+      digitalWrite(0,LOW);
+      delay(atraso);
+      digitalWrite(4, LOW);
+      delay(atraso);
+      digitalWrite(5, LOW);
+      delay(atraso);
+      digitalWrite(6, LOW);
+      delay(atraso);
+      digitalWrite(11, LOW);
+      delay(atraso);
+      digitalWrite(12, LOW);
+      delay(atraso);
+      digitalWrite(13, LOW);
+      delay(atraso);  Wait for 1000 millisecond(s)
+      var++;
+    }
+    
+    var = 0;
+    while(var  10)
+    {
+      digitalWrite(0, HIGH);
+      delay(atraso);
+      digitalWrite(13, HIGH);
+      delay(atraso);
+      digitalWrite(12, HIGH);
+      delay(atraso);
+      digitalWrite(11, HIGH);
+      delay(atraso);
+      digitalWrite(6, HIGH);
+      delay(atraso);
+      digitalWrite(5, HIGH);
+      delay(atraso);
+      digitalWrite(4, HIGH);
+      delay(atraso);  Wait for 1000 millisecond(s)
+      
+      digitalWrite(0, LOW);
+      delay(atraso);
+      digitalWrite(13, LOW);
+      delay(atraso);
+      digitalWrite(12, LOW);
+      delay(atraso);
+      digitalWrite(11, LOW);
+      delay(atraso);
+      digitalWrite(6, LOW);
+      delay(atraso);
+      digitalWrite(5, LOW);
+      delay(atraso);
+      digitalWrite(4, LOW);
+      delay(atraso);  Wait for 1000 millisecond(s)
+      var++;
+    }
+}
