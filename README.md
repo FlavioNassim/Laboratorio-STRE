@@ -10,7 +10,7 @@ Os projetos foram desenvolvidos e implementados tanto **fisicamente na protoboar
 - **_"LAB-3"_**
   - [Exercício 1](https://www.tinkercad.com/things/jHjXwL7b5Sn) 
   - [Exercício 2](https://www.tinkercad.com/things/fTrES6tgmqU)
-  - [Exercício 3]()
+  - [Exercício 3](https://youtu.be/7KvGVpiXjso)
 - **_"LAB-4"_**
   - [Exercício 1 e 2](https://www.tinkercad.com/things/hyjHiNnYiS5)
 
