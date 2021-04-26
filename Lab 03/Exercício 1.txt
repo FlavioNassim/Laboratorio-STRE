@@ -8,78 +8,47 @@ void setup()
   pinMode(4, OUTPUT);
 }
 
+void acender_apagar(int led, bool acender, int atraso)
+{
+  if(acender)
+  {
+    digitalWrite(led, HIGH);
+    delay(atraso);
+  }
+  else
+  {
+    digitalWrite(led, LOW);
+    delay(atraso);
+  }
+  
+}
 
 
 void loop()
 {
-  int var = 0;
+   //Conforme solicitado no exercício.
+  //Acende, espera 1 segundo, apaga, espera 1 segundo.
+  acender_apagar(0, true, 1000);
+  acender_apagar(0, false, 1000);
+  
+   //Piscando conforme a estrutura de dados pilha.
+  //Ou seja, onde o primeiro a acender será o último a apagar
   int atraso = 500;
-    while(var  10)
-    {
-      digitalWrite(0, HIGH);
-      delay(atraso);
-      digitalWrite(13, HIGH);
-      delay(atraso);
-      digitalWrite(12, HIGH);
-      delay(atraso);
-      digitalWrite(11, HIGH);
-      delay(atraso);
-      digitalWrite(6,HIGH);
-      delay(atraso);
-      digitalWrite(5, HIGH);
-      delay(atraso);
-      digitalWrite(4, HIGH);
-      delay(atraso); Wit for 1000 millisecond(s)
-
-      digitalWrite(0,LOW);
-      delay(atraso);
-      digitalWrite(4, LOW);
-      delay(atraso);
-      digitalWrite(5, LOW);
-      delay(atraso);
-      digitalWrite(6, LOW);
-      delay(atraso);
-      digitalWrite(11, LOW);
-      delay(atraso);
-      digitalWrite(12, LOW);
-      delay(atraso);
-      digitalWrite(13, LOW);
-      delay(atraso);  Wait for 1000 millisecond(s)
-      var++;
-    }
-    
-    var = 0;
-    while(var  10)
-    {
-      digitalWrite(0, HIGH);
-      delay(atraso);
-      digitalWrite(13, HIGH);
-      delay(atraso);
-      digitalWrite(12, HIGH);
-      delay(atraso);
-      digitalWrite(11, HIGH);
-      delay(atraso);
-      digitalWrite(6, HIGH);
-      delay(atraso);
-      digitalWrite(5, HIGH);
-      delay(atraso);
-      digitalWrite(4, HIGH);
-      delay(atraso);  Wait for 1000 millisecond(s)
-      
-      digitalWrite(0, LOW);
-      delay(atraso);
-      digitalWrite(13, LOW);
-      delay(atraso);
-      digitalWrite(12, LOW);
-      delay(atraso);
-      digitalWrite(11, LOW);
-      delay(atraso);
-      digitalWrite(6, LOW);
-      delay(atraso);
-      digitalWrite(5, LOW);
-      delay(atraso);
-      digitalWrite(4, LOW);
-      delay(atraso);  Wait for 1000 millisecond(s)
-      var++;
-    }
+  acender_apagar(13, true, atraso);
+  acender_apagar(12, true, atraso);
+  acender_apagar(11, true, atraso);
+  
+  acender_apagar(11, false, atraso);
+  acender_apagar(12, false, atraso);
+  acender_apagar(13, false, atraso);
+  
+   //Piscando conforme a estrutura de dados fila.
+  //Ou seja, onde o primeiro a acender será o primeiro a apagar
+  acender_apagar(6, true, atraso);
+  acender_apagar(5, true, atraso);
+  acender_apagar(4, true, atraso);
+  
+  acender_apagar(6, false, atraso);
+  acender_apagar(5, false, atraso);
+  acender_apagar(4, false, atraso);
 }

@@ -2,6 +2,7 @@
 
 #include <NilRTOS.h>
 
+
 // The LED definition
 int red_led = 13;
 int blue_led = 12;
@@ -15,24 +16,34 @@ SEMAPHORE_DECL(sem, 1);
 // Declare the thread function for all threads.
 NIL_THREAD(thdFcn, name) {
   int color_led;
+  //String color; Não consegui fazer funcionar.
   
   while (TRUE) {
     
     if(name == "red"){
       color_led = red_led;
+      //color = "red";
     }
     else if(name == "blue"){
       color_led = blue_led;
+      //color = "blue";
     }
     else{
       color_led = green_led;
+      //color = "green";
     }
-    Serial.println(color_led);
 
 
     
     // Wait for signal.
+    Serial.print(color_led);
+    Serial.println(": Estou esperando um sinal."); //Esperando o semáforo abrir para acessar o espaço de memória protegido.
+    Serial.println("");
     nilSemWait(&sem);
+    
+      Serial.print(color_led);
+      Serial.println(": Recebi o sinal e vou entrar na área protegida.");
+      Serial.println("");
       
       // Turn LED off.
       digitalWrite(red_led, LOW);  
@@ -42,10 +53,24 @@ NIL_THREAD(thdFcn, name) {
       digitalWrite(color_led, HIGH);
       nilThdSleep(1000);
       
+      Serial.print(color_led);
+      Serial.println(": Apaguei os outros LEDs e me acendi.");
+      Serial.println("");
+      
     // EXIT REGION
+    Serial.print(color_led);
+    Serial.println(": Vou enviar o sinal e sair da área protegida");
+    Serial.println("");
+    
     nilSemSignal(&sem);
+    Serial.print(color_led);
+    Serial.println(": Enviei o sinal e vou dormir");
+    Serial.println("");
       
     nilThdSleep(2000);
+    Serial.print(color_led);
+    Serial.println(": Acordei");
+    Serial.println("");
   }
 }
 
